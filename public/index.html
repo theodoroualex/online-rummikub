@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rustic Rummikub</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <section id="lobbyScreen" class="lobby-screen">
+        <div class="lobby-card">
+          <h1>Rustic Rummikub</h1>
+          <p class="subtitle">Join the table.</p>
+
+          <div class="field">
+            <label for="nameInput">Your name</label>
+            <input id="nameInput" placeholder="Alex" maxlength="20" />
+          </div>
+
+          <div class="field">
+            <button id="createRoomBtn" type="button">Create room</button>
+          </div>
+
+          <div class="field">
+            <label for="roomCodeInput">Room code</label>
+            <div class="join-row">
+              <input id="roomCodeInput" placeholder="ABC123" maxlength="6" />
+              <button id="joinRoomBtn" type="button">Join</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="game-screen hidden">
+  <aside class="left-rail">
+  </aside>
+
+  <main class="table-layout">
+    <section class="table-scene">
+      <div class="table-surface">
+        <div class="seat seat-local camera-panel">
+          <video id="localVideo" autoplay muted playsinline></video>
+        </div>
+
+        <div class="seat seat-top">
+          <video class="peer-video" data-seat="top" autoplay playsinline></video>
+        </div>
+
+        <div class="seat seat-left">
+          <video class="peer-video" data-seat="left" autoplay playsinline></video>
+        </div>
+
+        <div class="seat seat-right">
+          <video class="peer-video" data-seat="right" autoplay playsinline></video>
+        </div>
+
+        <div class="board-area">
+          <div class="board-header">
+            <h2>Table</h2>
+            <div id="observerNotice" class="observer-notice"></div>
+          </div>
+          <div id="boardSets" class="board-sets"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rack-panel wood-panel">
+      <div class="rack-header">
+        <h2>Your rack</h2>
+      </div>
+
+      <div id="rackTiles" class="rack-tiles"></div>
+
+      <div class="rack-controls">
+        <div class="meta compact-meta">
+          <div><span>Room</span><strong id="roomCodeLabel">—</strong></div>
+          <div><span>Status</span><strong id="statusLabel">Lobby</strong></div>
+          <div><span>Turn</span><strong id="turnLabel">—</strong></div>
+          <div><span>Pool</span><strong id="poolLabel">—</strong></div>
+        </div>
+
+        <div class="button-stack">
+          <button id="startGameBtn" type="button">Start game</button>
+          <button id="createSetBtn" type="button">New set</button>
+          <button id="resetTurnBtn" type="button">Reset turn</button>
+          <button id="submitTurnBtn" type="button">Submit turn</button>
+          <button id="drawPassBtn" type="button">Draw &amp; pass</button>
+        </div>
+
+        <div id="statusBanner" class="status-banner"></div>
+        <div id="winnerBanner" class="winner-banner"></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="right-rail">
+    <div class="players-panel wood-panel">
+      <h2>Players</h2>
+      <div id="playersList"></div>
+    </div>
+  </aside>
+</section>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client.js"></script>
+  </body>
+</html>
