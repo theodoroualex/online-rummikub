@@ -307,6 +307,22 @@ button:active {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
+.seat-label {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  z-index: 1;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f7e8cf;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .seat-local {
   top: 10px;
   left: 12.5%;

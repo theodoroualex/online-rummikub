@@ -158,6 +158,29 @@ async function initMedia() {
   return null;
 }
 
+function setVideoStream(video, stream) {
+  if (!video) return;
+  video.srcObject = stream || null;
+  if (!stream) return;
+
+  const tryPlay = () => {
+    const playPromise = video.play?.();
+    if (playPromise?.catch) {
+      playPromise.catch((err) => {
+        console.warn('Video playback failed', err);
+      });
+    }
+  };
+
+  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+    tryPlay();
+  } else {
+    video.onloadedmetadata = () => {
+      tryPlay();
+    };
+  }
+}
+
 async function ensureConnectionFor(otherSocketId, createOffer) {
   if (state.peerConnections.has(otherSocketId)) {
     return state.peerConnections.get(otherSocketId);
@@ -664,8 +687,9 @@ function renderSeats() {
   for (const seatName of ['top', 'left', 'right']) {
     const video = slots[seatName];
     const wrapper = video.closest('.seat');
-    wrapper.querySelector('.seat-label').textContent = '';
-    video.srcObject = null;
+    const label = wrapper.querySelector('.seat-label');
+    if (label) label.textContent = '';
+    setVideoStream(video, null);
   }
 
   for (const player of state.game?.players || []) {
@@ -676,11 +700,14 @@ function renderSeats() {
     if (!video) continue;
 
     const wrapper = video.closest('.seat');
-    wrapper.querySelector('.seat-label').textContent = '';
+    const label = wrapper.querySelector('.seat-label');
+    if (label) {
+      label.textContent = player.name || '';
+    }
 
     const stream = state.remoteStreams.get(player.socketId);
     if (stream) {
-      video.srcObject = stream;
+      setVideoStream(video, stream);
     }
   }
 }
